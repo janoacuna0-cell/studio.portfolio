@@ -1,485 +1,309 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
-import { 
-  Github, 
-  Linkedin, 
-  ExternalLink, 
-  Mail, 
-  ChevronRight, 
-  Code, 
-  Palette, 
-  Zap, 
-  Monitor, 
-  Layout, 
-  Smartphone,
-  Send,
-  ArrowUpRight,
-  Users,
-  BookOpen,
-  Sparkles,
-  MessageCircle,
-  Languages
-} from 'lucide-react';
-
-// --- Diccionario de contenidos (i18n) ---
-const translations = {
-  es: {
-    nav: { projects: 'Proyectos', skills: 'Habilidades', about: 'Nosotros', contact: 'Contacto', action: 'Hablemos' },
-    hero: {
-      tag: 'Dúo Creativo • Estrategia & Diseño',
-      title: 'CREAMOS EL',
-      italic: 'FUTURO.',
-      desc: 'Dos visiones, una pasión. Transformamos ideas complejas en interfaces humanas y estéticas desde la intersección de la academia y el diseño.',
-      btn1: 'Nuestros Proyectos',
-      btn2: 'Nuestra Historia'
-    },
-    about: {
-      tag: 'Detrás de la pantalla',
-      title: 'DOS MENTES, UNA MISIÓN.',
-      p1: 'Somos dos amigos de 20 años que entendieron que el código y el diseño son el lenguaje del siglo XXI. Mientras uno de nosotros se sumerge en las leyes de la Física y la Ingeniería, el otro explora la psicología y el orden de la Economía.',
-      p2: 'Esta dualidad académica es nuestra mayor ventaja competitiva. No solo diseñamos "bonito"; estructuramos sistemas lógicos y rentables que resuelven problemas reales.',
-      stat1: 'Años de energía pura',
-      stat2: 'Aprendiendo y creando'
-    },
-    skills: {
-      s1: 'Diseño UI/UX',
-      s2: 'Desarrollo Front',
-      s3: 'Arq. de SaaS',
-      s4: 'Rendimiento',
-      s5: 'Lógica Académica',
-      s6: 'Innovación'
-    },
-    projects: {
-      title: 'PROYECTOS QUE',
-      italic: 'IMPACTAN',
-      desc: 'Desde el concepto inicial hasta el despliegue final. Fusionamos estrategia con ejecución técnica en proyectos reales.',
-      btn: 'Explorar Todo',
-      case: 'Ver Sitio'
-    },
-    marquee: 'Mentes Ingenieras • Almas Creativas • Nativos Digitales • Design Thinking •',
-    contact: {
-      title: '¿TRABAJAMOS JUNTOS?',
-      desc: 'Buscamos proyectos que nos desafíen y nos permitan aplicar todo lo que aprendemos día a día.',
-      btn: 'Enviar WhatsApp',
-      waMsg: 'Hola! Vengo de la página de Studio y me gustaría hablar sobre un proyecto.'
-    },
-    footer: 'Diseñado por dos apasionados.'
-  },
-  en: {
-    nav: { projects: 'Projects', skills: 'Skills', about: 'About', contact: 'Contact', action: "Let's Talk" },
-    hero: {
-      tag: 'Creative Duo • Strategy & Design',
-      title: 'CREATING THE',
-      italic: 'FUTURE.',
-      desc: 'Two visions, one passion. We transform complex ideas into human and aesthetic interfaces from the intersection of academia and design.',
-      btn1: 'Our Projects',
-      btn2: 'Our Story'
-    },
-    about: {
-      tag: 'Behind the screen',
-      title: 'TWO MINDS, ONE MISSION.',
-      p1: 'We are two 20-year-old friends who understood that code and design are the language of the 21st century. While one of us dives into the laws of Physics and Engineering, the other explores the psychology and order of Economics.',
-      p2: 'This academic duality is our greatest competitive advantage. We don’t just design "pretty"; we structure logical and profitable systems that solve real problems.',
-      stat1: 'Years of pure energy',
-      stat2: 'Learning & creating'
-    },
-    skills: {
-      s1: 'UI/UX Design',
-      s2: 'Frontend Dev',
-      s3: 'SaaS Architecture',
-      s4: 'Performance',
-      s5: 'Academic Logic',
-      s6: 'Innovation'
-    },
-    projects: {
-      title: 'IMPACTFUL',
-      italic: 'PROJECTS',
-      desc: 'From initial concept to final deployment. We merge strategy with flawless technical execution in real-world projects.',
-      btn: 'Explore All',
-      case: 'Visit Site'
-    },
-    marquee: 'Engineering Minds • Creative Souls • Digital Natives • Design Thinking •',
-    contact: {
-      title: 'WORK TOGETHER?',
-      desc: 'We look for projects that challenge us and allow us to apply everything we learn day by day.',
-      btn: 'Send WhatsApp',
-      waMsg: 'Hi! I am coming from the Studio website and would like to talk about a project.'
-    },
-    footer: 'Designed by two enthusiasts.'
-  }
-};
-
-// --- Components ---
-
-const Navbar = ({ lang, setLang, t }) => {
-  return (
-    <motion.nav 
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      className="fixed top-0 w-full z-50 flex justify-between items-center px-8 py-6 backdrop-blur-md bg-black/10"
-    >
-      <div className="text-2xl font-black tracking-tighter text-white">
-        STUDIO<span className="text-blue-500">.</span>
-      </div>
-      
-      <div className="hidden md:flex gap-8 text-sm font-medium text-gray-400 items-center">
-        {['projects', 'skills', 'about', 'contact'].map((item) => (
-          <a key={item} href={`#${item}`} className="hover:text-white transition-colors cursor-pointer">
-            {t.nav[item]}
-          </a>
-        ))}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDIO. | Diseño de Autor</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Framer Motion -->
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
         
-        {/* Language Switcher */}
-        <button 
-          onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
-          className="flex items-center gap-2 bg-zinc-800/50 px-3 py-1.5 rounded-full border border-zinc-700 hover:border-blue-500 transition-colors text-xs font-bold text-white uppercase"
-        >
-          <Languages size={14} />
-          {lang === 'es' ? 'EN' : 'ES'}
-        </button>
-      </div>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
 
-      <a 
-        href={`https://wa.me/5492804298909?text=${encodeURIComponent(t.contact.waMsg)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-blue-500 hover:text-white transition-all"
-      >
-        {t.nav.action}
-      </a>
-    </motion.nav>
-  );
-};
+        h1, h2, h3 {
+            line-height: 1.2 !important;
+            letter-spacing: -0.01em;
+        }
 
-const Hero = ({ t }) => {
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
+        .stroke-text {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.15);
+            color: transparent;
+        }
 
-  return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden px-6">
-      <motion.div style={{ y: y1 }} className="absolute inset-0 z-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px]" />
-      </motion.div>
+        /* Glassmorphism para el Nav */
+        .glass-nav {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
 
-      <div className="relative z-10 text-center max-w-5xl">
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-blue-500 font-mono tracking-widest uppercase mb-4 text-xs md:text-sm"
-        >
-          {t.hero.tag}
-        </motion.p>
-        <motion.h1 
-          key={t.hero.title}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-tight tracking-tighter"
-        >
-          {t.hero.title} <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 italic">{t.hero.italic}</span>
-        </motion.h1>
-        <motion.p 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="mt-8 text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto"
-        >
-          {t.hero.desc}
-        </motion.p>
-        
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-12 flex flex-wrap justify-center gap-6"
-        >
-          <a href="#projects" className="group relative px-8 py-4 bg-white text-black font-bold rounded-2xl overflow-hidden transition-all inline-block">
-            <span className="relative z-10 flex items-center gap-2">{t.hero.btn1} <ChevronRight size={18} /></span>
-            <div className="absolute inset-0 bg-blue-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-          </a>
-          <a href="#about" className="px-8 py-4 border border-zinc-700 text-white font-bold rounded-2xl hover:bg-zinc-800 transition-all inline-block">
-            {t.hero.btn2}
-          </a>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
+        /* Orbe de color interactivo */
+        .color-orb {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.35;
+            transition: background 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
 
-const AboutUs = ({ t }) => {
-  return (
-    <section id="about" className="py-32 px-8 bg-zinc-950 relative overflow-hidden">
-      <div className="max-w-4xl mx-auto z-10 relative">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="space-y-12 text-center"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mx-auto">
-            <Users size={14} /> {t.about.tag}
-          </div>
-          
-          <h2 className="text-5xl md:text-7xl font-black text-white leading-tight tracking-tighter">
-            {t.about.title}
-          </h2>
-          
-          <div className="space-y-8 text-zinc-400 text-xl leading-relaxed max-w-3xl mx-auto">
-            <p>{t.about.p1}</p>
-            <p>{t.about.p2}</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12 border-t border-zinc-800">
-            <div>
-              <h4 className="text-white font-bold text-4xl mb-2 italic tracking-tighter uppercase">20</h4>
-              <p className="text-zinc-500 text-xs uppercase tracking-widest font-bold">{t.about.stat1}</p>
-            </div>
-            <div>
-              <h4 className="text-white font-bold text-4xl mb-2 italic tracking-tighter uppercase">24/7</h4>
-              <p className="text-zinc-500 text-xs uppercase tracking-widest font-bold">{t.about.stat2}</p>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-      
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none opacity-20">
-        <div className="absolute top-0 left-10 w-64 h-64 bg-blue-600 rounded-full blur-[150px]" />
-        <div className="absolute bottom-0 right-10 w-64 h-64 bg-purple-600 rounded-full blur-[150px]" />
-      </div>
-    </section>
-  );
-};
+        .custom-cursor {
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            mix-blend-mode: difference;
+            z-index: 9999;
+            transition: transform 0.15s ease;
+        }
 
-const Skills = ({ t }) => {
-  const skills = [
-    { name: t.skills.s1, icon: <Palette className="text-pink-500" /> },
-    { name: t.skills.s2, icon: <Code className="text-blue-500" /> },
-    { name: t.skills.s3, icon: <Layout className="text-purple-500" /> },
-    { name: t.skills.s4, icon: <Zap className="text-yellow-500" /> },
-    { name: t.skills.s5, icon: <BookOpen className="text-emerald-500" /> },
-    { name: t.skills.s6, icon: <Sparkles className="text-orange-500" /> },
-  ];
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
 
-  return (
-    <section id="skills" className="py-24 px-8 bg-black">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {skills.map((skill, i) => (
-            <motion.div
-              key={skill.name}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ y: -10, borderColor: '#3b82f6', backgroundColor: 'rgba(30, 41, 59, 0.5)' }}
-              className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 flex flex-col items-center gap-4 transition-all duration-300"
-            >
-              {skill.icon}
-              <span className="text-zinc-300 font-bold text-[10px] text-center uppercase tracking-tighter">{skill.name}</span>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { motion, AnimatePresence } = window.Motion;
 
-const ProjectCard = ({ project, index, t }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
-      className="group relative overflow-hidden rounded-3xl bg-zinc-900 border border-zinc-800 aspect-video md:aspect-square lg:aspect-video"
-    >
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-90 transition-opacity" />
-      <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-20 group-hover:scale-110 transition-transform duration-700`} />
-      
-      <div className="absolute bottom-0 left-0 p-8 z-20 w-full translate-y-4 group-hover:translate-y-0 transition-transform">
-        <p className="text-blue-400 text-xs font-mono mb-2 uppercase tracking-widest">{project.category}</p>
-        <h3 className="text-3xl font-bold text-white mb-4 uppercase tracking-tighter">{project.title}</h3>
-        <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
-          <a 
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full text-xs font-bold uppercase hover:bg-blue-500 hover:text-white transition-colors"
-          >
-            {t.projects.case} <ArrowUpRight size={14} />
-          </a>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
-const Portfolio = ({ t }) => {
-  const projects = [
-    { 
-      title: "Guanaco Hostel", 
-      category: "Hospitality / Booking", 
-      color: "from-orange-500 to-yellow-700", 
-      link: "https://guanacohostel.vercel.app/" 
-    },
-    { 
-      title: "Holy Donas", 
-      category: "E-commerce / Food", 
-      color: "from-pink-400 to-purple-600", 
-      link: "https://holydonas.vercel.app/" 
-    },
-    { 
-      title: "Banco de Sangre MDY", 
-      category: "Health / Management", 
-      color: "from-red-600 to-red-900", 
-      link: "https://bancodesangremdy.vercel.app/" 
-    },
-    { 
-      title: "STUDIO Concept", 
-      category: "Portfolio / Creative", 
-      color: "from-blue-600 to-emerald-600", 
-      link: "#" 
-    },
-  ];
-
-  return (
-    <section id="projects" className="py-24 px-8 bg-black">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-          <div className="max-w-2xl">
-            <h2 className="text-5xl md:text-7xl font-black text-white mb-6 uppercase tracking-tighter italic">
-              {t.projects.title} <br /> {t.projects.italic}
-            </h2>
-            <p className="text-zinc-400 text-lg">
-              {t.projects.desc}
-            </p>
-          </div>
-          <div className="flex gap-4">
-            <button className="p-4 border border-zinc-800 rounded-full text-white hover:bg-zinc-900 transition-colors uppercase text-xs font-bold tracking-widest">
-              {t.projects.btn}
-            </button>
-          </div>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.title} project={project} index={i} t={t} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Contact = ({ t }) => {
-  return (
-    <section id="contact" className="py-32 px-8 relative overflow-hidden bg-black">
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent" />
-      <div className="max-w-4xl mx-auto text-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-6xl md:text-9xl font-black text-white mb-8 tracking-tighter uppercase italic">{t.contact.title}</h2>
-          <p className="text-zinc-400 text-xl mb-12 max-w-xl mx-auto">
-            {t.contact.desc}
-          </p>
-          
-          <div className="flex flex-col sm:flex-row justify-center gap-6">
-            <a 
-              href={`https://wa.me/5492804298909?text=${encodeURIComponent(t.contact.waMsg)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-4 bg-green-600 hover:bg-green-500 text-white px-10 py-6 rounded-3xl text-xl font-bold transition-all transform hover:scale-105"
-            >
-              {t.contact.btn} <MessageCircle size={24} />
-            </a>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isPointer, setIsPointer] = useState(false);
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-      const target = e.target;
-      setIsPointer(window.getComputedStyle(target).cursor === 'pointer' || target.tagName === 'A' || target.tagName === 'BUTTON');
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  return (
-    <motion.div 
-      className="fixed top-0 left-0 w-8 h-8 rounded-full bg-white mix-blend-difference pointer-events-none z-[9999] hidden lg:block"
-      animate={{ 
-        x: position.x - 16, 
-        y: position.y - 16,
-        scale: isPointer ? 3 : 1
-      }}
-      transition={{ type: 'spring', damping: 20, stiffness: 250, mass: 0.5 }}
-    />
-  );
-};
-
-export default function App() {
-  const [lang, setLang] = useState('es');
-  const t = translations[lang];
-
-  return (
-    <div className="bg-black min-h-screen text-white font-sans selection:bg-blue-500/30 overflow-x-hidden">
-      <CustomCursor />
-      <Navbar lang={lang} setLang={setLang} t={t} />
-      
-      <main>
-        <Hero t={t} />
-        <AboutUs t={t} />
-        <Skills t={t} />
-        <Portfolio t={t} />
-        
-        {/* Marquee Section */}
-        <section className="py-32 bg-zinc-950 flex justify-center items-center overflow-hidden">
-          <motion.div 
-            initial={{ x: "0%" }}
-            animate={{ x: "-50%" }}
-            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            className="whitespace-nowrap flex gap-12"
-          >
-            {[1,2].map(i => (
-              <span key={i} className="text-[100px] md:text-[180px] font-black text-transparent stroke-text opacity-5 uppercase select-none">
-                {t.marquee}
-              </span>
-            ))}
-          </motion.div>
-          <style>{`
-            .stroke-text {
-              -webkit-text-stroke: 1px white;
+        const translations = {
+            es: {
+                nav: { projects: 'Proyectos', about: 'Nosotros', action: 'Hablemos' },
+                hero: {
+                    tag: 'Estudio de Diseño Digital',
+                    title: 'DISEÑO QUE',
+                    italic: 'IMPORTA.',
+                    desc: 'Elevamos visiones a través de interfaces minimalistas y estrategias de alto impacto.',
+                    btn: 'Explorar'
+                },
+                about: {
+                    tag: 'Esencia',
+                    title: 'DOS MENTES, UNA MISIÓN.',
+                    p: 'Fusionamos la lógica de la Ingeniería con la estrategia de la Economía para crear sistemas digitales que no solo brillan, sino que funcionan.',
+                    stat1: 'Años',
+                    stat2: 'Enfoque'
+                },
+                projects: {
+                    title: 'PROYECTOS',
+                    italic: 'SELECCIONADOS',
+                    case: 'Ver sitio'
+                },
+                contact: {
+                    title: '¿CONECTAMOS?',
+                    desc: 'Si buscas calidad y atención al detalle, estás en el lugar correcto.',
+                    btn: 'WhatsApp Directo',
+                    waMsg: 'Hola! Venimos de la página de Studio.'
+                }
+            },
+            en: {
+                nav: { projects: 'Work', about: 'About', action: 'Contact' },
+                hero: {
+                    tag: 'Digital Design Studio',
+                    title: 'DESIGN THAT',
+                    italic: 'MATTERS.',
+                    desc: 'Elevating visions through minimalist interfaces and high-impact strategies.',
+                    btn: 'Explore'
+                },
+                about: {
+                    tag: 'Essence',
+                    title: 'TWO MINDS, ONE MISSION.',
+                    p: 'Merging Engineering logic with Economic strategy to build digital systems that don’t just shine, they work.',
+                    stat1: 'Years',
+                    stat2: 'Focus'
+                },
+                projects: {
+                    title: 'SELECTED',
+                    italic: 'WORKS',
+                    case: 'Visit'
+                },
+                contact: {
+                    title: 'LET’S TALK?',
+                    desc: 'If you are looking for quality and attention to detail, you are in the right place.',
+                    btn: 'Direct WhatsApp',
+                    waMsg: 'Hi! We are coming from the Studio website.'
+                }
             }
-          `}</style>
-        </section>
+        };
 
-        <Contact t={t} />
-      </main>
+        const App = () => {
+            const [lang, setLang] = useState('es');
+            const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+            // Color inicial (Azul Studio)
+            const defaultColor = 'rgba(59, 130, 246, 0.4)';
+            const [orbColor, setOrbColor] = useState(defaultColor);
+            const t = translations[lang];
 
-      <footer className="py-12 px-8 border-t border-zinc-900 text-center text-zinc-600 text-sm">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <p>© {new Date().getFullYear()} STUDIO. {t.footer}</p>
-          <div className="flex gap-8 uppercase tracking-widest text-[10px] font-bold">
-            <span className="text-zinc-500">React</span>
-            <span className="text-zinc-500">Tailwind</span>
-            <span className="text-zinc-500">Framer Motion</span>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
-}
+            useEffect(() => {
+                const handleMouseMove = (e) => {
+                    setMousePos({ x: e.clientX, y: e.clientY });
+                };
+                window.addEventListener('mousemove', handleMouseMove);
+                return () => window.removeEventListener('mousemove', handleMouseMove);
+            }, []);
+
+            const projects = [
+                { 
+                    title: "Guanaco Hostel", 
+                    cat: "Travel", 
+                    link: "https://guanacohostel.vercel.app/",
+                    color: "rgba(245, 158, 11, 0.5)" // Naranja Ámbar
+                },
+                { 
+                    title: "Holy Donas", 
+                    cat: "Food", 
+                    link: "https://holydonas.vercel.app/",
+                    color: "rgba(251, 191, 36, 0.5)" // Amarillo Sutil
+                },
+                { 
+                    title: "Banco de Sangre", 
+                    cat: "Health", 
+                    link: "https://bancodesangremdy.vercel.app/",
+                    color: "rgba(239, 68, 68, 0.5)" // Rojo Médico
+                },
+                { 
+                    title: "Studio Lab", 
+                    cat: "Experimental", 
+                    link: "#",
+                    color: "rgba(255, 255, 255, 0.3)" // Blanco Neutro
+                }
+            ];
+
+            return (
+                <div className="bg-black min-h-screen text-white select-none relative overflow-x-hidden">
+                    {/* Orbe Interactivo de Color Dinámico */}
+                    <motion.div 
+                        className="color-orb hidden lg:block"
+                        animate={{ 
+                            left: mousePos.x - 250, 
+                            top: mousePos.y - 250,
+                            background: orbColor
+                        }}
+                        transition={{ type: 'spring', damping: 35, stiffness: 60 }}
+                    />
+
+                    <div className="custom-cursor hidden lg:block" style={{ left: `${mousePos.x}px`, top: `${mousePos.y}px` }} />
+
+                    {/* Navbar con Glassmorphism mejorado */}
+                    <nav className="fixed top-0 w-full z-50 flex justify-between items-center px-6 md:px-12 py-6 glass-nav">
+                        <div className="text-xl font-black tracking-tighter">STUDIO<span className="text-blue-500">.</span></div>
+                        <div className="hidden md:flex gap-10 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 items-center">
+                            {['projects', 'about'].map(i => (
+                                <a key={i} href={`#${i}`} className="hover:text-white transition-colors">{t.nav[i]}</a>
+                            ))}
+                            <button onClick={() => setLang(lang === 'es' ? 'en' : 'es')} className="opacity-50 hover:opacity-100 transition-opacity">
+                                {lang === 'es' ? 'EN' : 'ES'}
+                            </button>
+                        </div>
+                        <a href={`https://wa.me/5492804298909?text=${encodeURIComponent(t.contact.waMsg)}`} className="text-[10px] font-bold uppercase tracking-widest border border-white/20 px-4 py-2 rounded-full hover:bg-white hover:text-black transition-all">
+                            {t.nav.action}
+                        </a>
+                    </nav>
+
+                    {/* Hero */}
+                    <section className="h-screen flex flex-col items-center justify-center text-center px-6 pt-20 relative z-10">
+                        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+                            <p className="text-zinc-500 text-[10px] uppercase tracking-[0.4em] mb-4">{t.hero.tag}</p>
+                            <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter max-w-4xl mx-auto leading-none">
+                                {t.hero.title} <br />
+                                <span className="stroke-text">{t.hero.italic}</span>
+                            </h1>
+                            <p className="text-zinc-500 text-sm md:text-base max-w-sm mx-auto font-light leading-relaxed">
+                                {t.hero.desc}
+                            </p>
+                            <div className="pt-8">
+                                <a href="#projects" className="inline-block px-10 py-4 bg-white text-black rounded-full text-[10px] font-bold uppercase tracking-widest hover:scale-105 transition-all">
+                                    {t.hero.btn}
+                                </a>
+                            </div>
+                        </motion.div>
+                    </section>
+
+                    {/* About */}
+                    <section id="about" className="py-40 px-8 relative z-10">
+                        <div className="max-w-3xl mx-auto text-center space-y-12">
+                            <span className="text-blue-500 text-[10px] font-bold uppercase tracking-widest">{t.about.tag}</span>
+                            <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-tight">{t.about.title}</h2>
+                            <p className="text-zinc-400 text-lg md:text-xl font-light leading-relaxed">{t.about.p}</p>
+                            <div className="flex justify-center gap-16 md:gap-24 pt-10">
+                                <div><h4 className="text-3xl font-bold">20</h4><p className="text-zinc-600 text-[9px] uppercase tracking-widest mt-2">{t.about.stat1}</p></div>
+                                <div><h4 className="text-3xl font-bold">100%</h4><p className="text-zinc-600 text-[9px] uppercase tracking-widest mt-2">{t.about.stat2}</p></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Proyectos con interacción de color */}
+                    <section id="projects" className="py-24 px-8 relative z-10">
+                        <div className="max-w-6xl mx-auto">
+                            <h2 className="text-[10px] font-bold tracking-[0.4em] mb-16 text-zinc-600 uppercase">
+                                <span className="text-blue-500">//</span> {t.projects.title} {t.projects.italic}
+                            </h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+                                {projects.map((p, i) => (
+                                    <motion.div 
+                                        whileHover={{ y: -10 }} 
+                                        key={i} 
+                                        className="group cursor-pointer"
+                                        onMouseEnter={() => setOrbColor(p.color)}
+                                        onMouseLeave={() => setOrbColor(defaultColor)}
+                                    >
+                                        <div className="aspect-video bg-zinc-900/40 rounded-3xl mb-6 overflow-hidden relative border border-white/5">
+                                            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0">
+                                                <a href={p.link} target="_blank" className="text-[10px] font-bold uppercase tracking-widest bg-white text-black px-6 py-2.5 rounded-full">{t.projects.case}</a>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between items-center px-2">
+                                            <h3 className="text-lg font-bold tracking-tight group-hover:text-blue-400 transition-colors">{p.title}</h3>
+                                            <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest border border-zinc-800 px-2 py-0.5 rounded group-hover:border-zinc-500 transition-colors">{p.cat}</span>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Contacto */}
+                    <section id="contact" className="py-48 md:py-60 px-8 text-center relative z-10">
+                        <div className="max-w-4xl mx-auto space-y-12">
+                            <h2 className="text-6xl md:text-8xl font-black tracking-tighter italic uppercase stroke-text leading-[1.1]">
+                                {t.contact.title}
+                            </h2>
+                            <p className="text-zinc-500 text-sm md:text-lg max-w-xs mx-auto font-light leading-relaxed">
+                                {t.contact.desc}
+                            </p>
+                            <div className="pt-10">
+                                <a 
+                                    href={`https://wa.me/5492804298909?text=${encodeURIComponent(t.contact.waMsg)}`}
+                                    className="inline-block bg-white text-black px-12 py-5 rounded-full text-[11px] font-black uppercase tracking-widest hover:scale-105 hover:bg-blue-500 hover:text-white transition-all shadow-xl shadow-blue-500/10"
+                                >
+                                    {t.contact.btn}
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <footer className="py-12 border-t border-zinc-900 text-center text-zinc-700 text-[9px] uppercase tracking-[0.5em] relative z-10">
+                        <p>© STUDIO. // DIGITAL ATELIER</p>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
