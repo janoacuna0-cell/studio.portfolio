@@ -1,0 +1,485 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
+import { 
+  Github, 
+  Linkedin, 
+  ExternalLink, 
+  Mail, 
+  ChevronRight, 
+  Code, 
+  Palette, 
+  Zap, 
+  Monitor, 
+  Layout, 
+  Smartphone,
+  Send,
+  ArrowUpRight,
+  Users,
+  BookOpen,
+  Sparkles,
+  MessageCircle,
+  Languages
+} from 'lucide-react';
+
+// --- Diccionario de contenidos (i18n) ---
+const translations = {
+  es: {
+    nav: { projects: 'Proyectos', skills: 'Habilidades', about: 'Nosotros', contact: 'Contacto', action: 'Hablemos' },
+    hero: {
+      tag: 'Dúo Creativo • Estrategia & Diseño',
+      title: 'CREAMOS EL',
+      italic: 'FUTURO.',
+      desc: 'Dos visiones, una pasión. Transformamos ideas complejas en interfaces humanas y estéticas desde la intersección de la academia y el diseño.',
+      btn1: 'Nuestros Proyectos',
+      btn2: 'Nuestra Historia'
+    },
+    about: {
+      tag: 'Detrás de la pantalla',
+      title: 'DOS MENTES, UNA MISIÓN.',
+      p1: 'Somos dos amigos de 20 años que entendieron que el código y el diseño son el lenguaje del siglo XXI. Mientras uno de nosotros se sumerge en las leyes de la Física y la Ingeniería, el otro explora la psicología y el orden de la Economía.',
+      p2: 'Esta dualidad académica es nuestra mayor ventaja competitiva. No solo diseñamos "bonito"; estructuramos sistemas lógicos y rentables que resuelven problemas reales.',
+      stat1: 'Años de energía pura',
+      stat2: 'Aprendiendo y creando'
+    },
+    skills: {
+      s1: 'Diseño UI/UX',
+      s2: 'Desarrollo Front',
+      s3: 'Arq. de SaaS',
+      s4: 'Rendimiento',
+      s5: 'Lógica Académica',
+      s6: 'Innovación'
+    },
+    projects: {
+      title: 'PROYECTOS QUE',
+      italic: 'IMPACTAN',
+      desc: 'Desde el concepto inicial hasta el despliegue final. Fusionamos estrategia con ejecución técnica en proyectos reales.',
+      btn: 'Explorar Todo',
+      case: 'Ver Sitio'
+    },
+    marquee: 'Mentes Ingenieras • Almas Creativas • Nativos Digitales • Design Thinking •',
+    contact: {
+      title: '¿TRABAJAMOS JUNTOS?',
+      desc: 'Buscamos proyectos que nos desafíen y nos permitan aplicar todo lo que aprendemos día a día.',
+      btn: 'Enviar WhatsApp',
+      waMsg: 'Hola! Vengo de la página de Studio y me gustaría hablar sobre un proyecto.'
+    },
+    footer: 'Diseñado por dos apasionados.'
+  },
+  en: {
+    nav: { projects: 'Projects', skills: 'Skills', about: 'About', contact: 'Contact', action: "Let's Talk" },
+    hero: {
+      tag: 'Creative Duo • Strategy & Design',
+      title: 'CREATING THE',
+      italic: 'FUTURE.',
+      desc: 'Two visions, one passion. We transform complex ideas into human and aesthetic interfaces from the intersection of academia and design.',
+      btn1: 'Our Projects',
+      btn2: 'Our Story'
+    },
+    about: {
+      tag: 'Behind the screen',
+      title: 'TWO MINDS, ONE MISSION.',
+      p1: 'We are two 20-year-old friends who understood that code and design are the language of the 21st century. While one of us dives into the laws of Physics and Engineering, the other explores the psychology and order of Economics.',
+      p2: 'This academic duality is our greatest competitive advantage. We don’t just design "pretty"; we structure logical and profitable systems that solve real problems.',
+      stat1: 'Years of pure energy',
+      stat2: 'Learning & creating'
+    },
+    skills: {
+      s1: 'UI/UX Design',
+      s2: 'Frontend Dev',
+      s3: 'SaaS Architecture',
+      s4: 'Performance',
+      s5: 'Academic Logic',
+      s6: 'Innovation'
+    },
+    projects: {
+      title: 'IMPACTFUL',
+      italic: 'PROJECTS',
+      desc: 'From initial concept to final deployment. We merge strategy with flawless technical execution in real-world projects.',
+      btn: 'Explore All',
+      case: 'Visit Site'
+    },
+    marquee: 'Engineering Minds • Creative Souls • Digital Natives • Design Thinking •',
+    contact: {
+      title: 'WORK TOGETHER?',
+      desc: 'We look for projects that challenge us and allow us to apply everything we learn day by day.',
+      btn: 'Send WhatsApp',
+      waMsg: 'Hi! I am coming from the Studio website and would like to talk about a project.'
+    },
+    footer: 'Designed by two enthusiasts.'
+  }
+};
+
+// --- Components ---
+
+const Navbar = ({ lang, setLang, t }) => {
+  return (
+    <motion.nav 
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      className="fixed top-0 w-full z-50 flex justify-between items-center px-8 py-6 backdrop-blur-md bg-black/10"
+    >
+      <div className="text-2xl font-black tracking-tighter text-white">
+        STUDIO<span className="text-blue-500">.</span>
+      </div>
+      
+      <div className="hidden md:flex gap-8 text-sm font-medium text-gray-400 items-center">
+        {['projects', 'skills', 'about', 'contact'].map((item) => (
+          <a key={item} href={`#${item}`} className="hover:text-white transition-colors cursor-pointer">
+            {t.nav[item]}
+          </a>
+        ))}
+        
+        {/* Language Switcher */}
+        <button 
+          onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
+          className="flex items-center gap-2 bg-zinc-800/50 px-3 py-1.5 rounded-full border border-zinc-700 hover:border-blue-500 transition-colors text-xs font-bold text-white uppercase"
+        >
+          <Languages size={14} />
+          {lang === 'es' ? 'EN' : 'ES'}
+        </button>
+      </div>
+
+      <a 
+        href={`https://wa.me/5492804298909?text=${encodeURIComponent(t.contact.waMsg)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-blue-500 hover:text-white transition-all"
+      >
+        {t.nav.action}
+      </a>
+    </motion.nav>
+  );
+};
+
+const Hero = ({ t }) => {
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
+
+  return (
+    <section className="relative h-screen flex items-center justify-center overflow-hidden px-6">
+      <motion.div style={{ y: y1 }} className="absolute inset-0 z-0">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px]" />
+      </motion.div>
+
+      <div className="relative z-10 text-center max-w-5xl">
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-blue-500 font-mono tracking-widest uppercase mb-4 text-xs md:text-sm"
+        >
+          {t.hero.tag}
+        </motion.p>
+        <motion.h1 
+          key={t.hero.title}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-tight tracking-tighter"
+        >
+          {t.hero.title} <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 italic">{t.hero.italic}</span>
+        </motion.h1>
+        <motion.p 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="mt-8 text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto"
+        >
+          {t.hero.desc}
+        </motion.p>
+        
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5 }}
+          className="mt-12 flex flex-wrap justify-center gap-6"
+        >
+          <a href="#projects" className="group relative px-8 py-4 bg-white text-black font-bold rounded-2xl overflow-hidden transition-all inline-block">
+            <span className="relative z-10 flex items-center gap-2">{t.hero.btn1} <ChevronRight size={18} /></span>
+            <div className="absolute inset-0 bg-blue-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+          </a>
+          <a href="#about" className="px-8 py-4 border border-zinc-700 text-white font-bold rounded-2xl hover:bg-zinc-800 transition-all inline-block">
+            {t.hero.btn2}
+          </a>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+const AboutUs = ({ t }) => {
+  return (
+    <section id="about" className="py-32 px-8 bg-zinc-950 relative overflow-hidden">
+      <div className="max-w-4xl mx-auto z-10 relative">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="space-y-12 text-center"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mx-auto">
+            <Users size={14} /> {t.about.tag}
+          </div>
+          
+          <h2 className="text-5xl md:text-7xl font-black text-white leading-tight tracking-tighter">
+            {t.about.title}
+          </h2>
+          
+          <div className="space-y-8 text-zinc-400 text-xl leading-relaxed max-w-3xl mx-auto">
+            <p>{t.about.p1}</p>
+            <p>{t.about.p2}</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12 border-t border-zinc-800">
+            <div>
+              <h4 className="text-white font-bold text-4xl mb-2 italic tracking-tighter uppercase">20</h4>
+              <p className="text-zinc-500 text-xs uppercase tracking-widest font-bold">{t.about.stat1}</p>
+            </div>
+            <div>
+              <h4 className="text-white font-bold text-4xl mb-2 italic tracking-tighter uppercase">24/7</h4>
+              <p className="text-zinc-500 text-xs uppercase tracking-widest font-bold">{t.about.stat2}</p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+      
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none opacity-20">
+        <div className="absolute top-0 left-10 w-64 h-64 bg-blue-600 rounded-full blur-[150px]" />
+        <div className="absolute bottom-0 right-10 w-64 h-64 bg-purple-600 rounded-full blur-[150px]" />
+      </div>
+    </section>
+  );
+};
+
+const Skills = ({ t }) => {
+  const skills = [
+    { name: t.skills.s1, icon: <Palette className="text-pink-500" /> },
+    { name: t.skills.s2, icon: <Code className="text-blue-500" /> },
+    { name: t.skills.s3, icon: <Layout className="text-purple-500" /> },
+    { name: t.skills.s4, icon: <Zap className="text-yellow-500" /> },
+    { name: t.skills.s5, icon: <BookOpen className="text-emerald-500" /> },
+    { name: t.skills.s6, icon: <Sparkles className="text-orange-500" /> },
+  ];
+
+  return (
+    <section id="skills" className="py-24 px-8 bg-black">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {skills.map((skill, i) => (
+            <motion.div
+              key={skill.name}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              whileHover={{ y: -10, borderColor: '#3b82f6', backgroundColor: 'rgba(30, 41, 59, 0.5)' }}
+              className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 flex flex-col items-center gap-4 transition-all duration-300"
+            >
+              {skill.icon}
+              <span className="text-zinc-300 font-bold text-[10px] text-center uppercase tracking-tighter">{skill.name}</span>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ProjectCard = ({ project, index, t }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1 }}
+      className="group relative overflow-hidden rounded-3xl bg-zinc-900 border border-zinc-800 aspect-video md:aspect-square lg:aspect-video"
+    >
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-90 transition-opacity" />
+      <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-20 group-hover:scale-110 transition-transform duration-700`} />
+      
+      <div className="absolute bottom-0 left-0 p-8 z-20 w-full translate-y-4 group-hover:translate-y-0 transition-transform">
+        <p className="text-blue-400 text-xs font-mono mb-2 uppercase tracking-widest">{project.category}</p>
+        <h3 className="text-3xl font-bold text-white mb-4 uppercase tracking-tighter">{project.title}</h3>
+        <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+          <a 
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full text-xs font-bold uppercase hover:bg-blue-500 hover:text-white transition-colors"
+          >
+            {t.projects.case} <ArrowUpRight size={14} />
+          </a>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const Portfolio = ({ t }) => {
+  const projects = [
+    { 
+      title: "Guanaco Hostel", 
+      category: "Hospitality / Booking", 
+      color: "from-orange-500 to-yellow-700", 
+      link: "https://guanacohostel.vercel.app/" 
+    },
+    { 
+      title: "Holy Donas", 
+      category: "E-commerce / Food", 
+      color: "from-pink-400 to-purple-600", 
+      link: "https://holydonas.vercel.app/" 
+    },
+    { 
+      title: "Banco de Sangre MDY", 
+      category: "Health / Management", 
+      color: "from-red-600 to-red-900", 
+      link: "https://bancodesangremdy.vercel.app/" 
+    },
+    { 
+      title: "STUDIO Concept", 
+      category: "Portfolio / Creative", 
+      color: "from-blue-600 to-emerald-600", 
+      link: "#" 
+    },
+  ];
+
+  return (
+    <section id="projects" className="py-24 px-8 bg-black">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+          <div className="max-w-2xl">
+            <h2 className="text-5xl md:text-7xl font-black text-white mb-6 uppercase tracking-tighter italic">
+              {t.projects.title} <br /> {t.projects.italic}
+            </h2>
+            <p className="text-zinc-400 text-lg">
+              {t.projects.desc}
+            </p>
+          </div>
+          <div className="flex gap-4">
+            <button className="p-4 border border-zinc-800 rounded-full text-white hover:bg-zinc-900 transition-colors uppercase text-xs font-bold tracking-widest">
+              {t.projects.btn}
+            </button>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {projects.map((project, i) => (
+            <ProjectCard key={project.title} project={project} index={i} t={t} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Contact = ({ t }) => {
+  return (
+    <section id="contact" className="py-32 px-8 relative overflow-hidden bg-black">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent" />
+      <div className="max-w-4xl mx-auto text-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-6xl md:text-9xl font-black text-white mb-8 tracking-tighter uppercase italic">{t.contact.title}</h2>
+          <p className="text-zinc-400 text-xl mb-12 max-w-xl mx-auto">
+            {t.contact.desc}
+          </p>
+          
+          <div className="flex flex-col sm:flex-row justify-center gap-6">
+            <a 
+              href={`https://wa.me/5492804298909?text=${encodeURIComponent(t.contact.waMsg)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-4 bg-green-600 hover:bg-green-500 text-white px-10 py-6 rounded-3xl text-xl font-bold transition-all transform hover:scale-105"
+            >
+              {t.contact.btn} <MessageCircle size={24} />
+            </a>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+const CustomCursor = () => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isPointer, setIsPointer] = useState(false);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+      const target = e.target;
+      setIsPointer(window.getComputedStyle(target).cursor === 'pointer' || target.tagName === 'A' || target.tagName === 'BUTTON');
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  return (
+    <motion.div 
+      className="fixed top-0 left-0 w-8 h-8 rounded-full bg-white mix-blend-difference pointer-events-none z-[9999] hidden lg:block"
+      animate={{ 
+        x: position.x - 16, 
+        y: position.y - 16,
+        scale: isPointer ? 3 : 1
+      }}
+      transition={{ type: 'spring', damping: 20, stiffness: 250, mass: 0.5 }}
+    />
+  );
+};
+
+export default function App() {
+  const [lang, setLang] = useState('es');
+  const t = translations[lang];
+
+  return (
+    <div className="bg-black min-h-screen text-white font-sans selection:bg-blue-500/30 overflow-x-hidden">
+      <CustomCursor />
+      <Navbar lang={lang} setLang={setLang} t={t} />
+      
+      <main>
+        <Hero t={t} />
+        <AboutUs t={t} />
+        <Skills t={t} />
+        <Portfolio t={t} />
+        
+        {/* Marquee Section */}
+        <section className="py-32 bg-zinc-950 flex justify-center items-center overflow-hidden">
+          <motion.div 
+            initial={{ x: "0%" }}
+            animate={{ x: "-50%" }}
+            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+            className="whitespace-nowrap flex gap-12"
+          >
+            {[1,2].map(i => (
+              <span key={i} className="text-[100px] md:text-[180px] font-black text-transparent stroke-text opacity-5 uppercase select-none">
+                {t.marquee}
+              </span>
+            ))}
+          </motion.div>
+          <style>{`
+            .stroke-text {
+              -webkit-text-stroke: 1px white;
+            }
+          `}</style>
+        </section>
+
+        <Contact t={t} />
+      </main>
+
+      <footer className="py-12 px-8 border-t border-zinc-900 text-center text-zinc-600 text-sm">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          <p>© {new Date().getFullYear()} STUDIO. {t.footer}</p>
+          <div className="flex gap-8 uppercase tracking-widest text-[10px] font-bold">
+            <span className="text-zinc-500">React</span>
+            <span className="text-zinc-500">Tailwind</span>
+            <span className="text-zinc-500">Framer Motion</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
