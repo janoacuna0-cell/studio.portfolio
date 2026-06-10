@@ -29,7 +29,8 @@
   --ease-in-out: cubic-bezier(0.4,0,0.2,1);
 }
 
-html { scroll-behavior: smooth; font-size: 16px; }
+html { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; }
+body { overflow-x: hidden; }
 
 body {
   background: var(--bg);
@@ -321,11 +322,14 @@ nav.scrolled {
 }
 
 .hero-h1 {
-  font-size: clamp(52px, 11vw, 140px);
+  font-size: clamp(38px, 11vw, 140px);
   font-weight: 800; letter-spacing: -0.04em;
   line-height: 0.92;
   margin-bottom: clamp(28px, 4vw, 52px);
   overflow: hidden;
+}
+@media (max-width: 400px) {
+  .hero-h1 { font-size: clamp(30px, 9.5vw, 52px); }
 }
 .hero-h1 .line {
   display: block; overflow: hidden;
@@ -551,7 +555,7 @@ nav.scrolled {
   flex-wrap: wrap;
 }
 .projects-head h2 {
-  font-size: clamp(36px, 5vw, 56px);
+  font-size: clamp(28px, 5vw, 56px);
   font-weight: 800; letter-spacing: -0.03em;
 }
 .projects-head .section-sub {
@@ -723,10 +727,13 @@ nav.scrolled {
   content: ''; height: 1px; width: 32px; background: var(--lime);
 }
 .contact h2 {
-  font-size: clamp(48px, 10vw, 110px);
+  font-size: clamp(36px, 10vw, 110px);
   font-weight: 800; letter-spacing: -0.04em;
   line-height: 0.95; margin-bottom: 28px;
   font-style: italic;
+}
+@media (max-width: 400px) {
+  .contact h2 { font-size: clamp(28px, 9vw, 48px); }
 }
 .contact h2 .hollow {
   -webkit-text-stroke: 2px rgba(202,255,51,0.25);
@@ -987,6 +994,7 @@ footer p {
   border: 1px solid var(--border);
   user-select: none; cursor: col-resize;
   box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+  touch-action: none;
 }
 @media (max-width: 640px) {
   .ba-container { aspect-ratio: 4/3; }
@@ -2537,9 +2545,13 @@ function initComet() {
   container.addEventListener('mousedown', e => { dragging = true; setPos(e.clientX); });
   window.addEventListener('mousemove',    e => { if (dragging) setPos(e.clientX); });
   window.addEventListener('mouseup',      () => { dragging = false; });
-  container.addEventListener('touchstart', e => { dragging = true; setPos(e.touches[0].clientX); }, { passive: true });
-  window.addEventListener('touchmove',     e => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
-  window.addEventListener('touchend',      () => { dragging = false; });
+  container.addEventListener('touchstart', e => {
+    dragging = true; setPos(e.touches[0].clientX);
+  }, { passive: true });
+  container.addEventListener('touchmove', e => {
+    if (dragging) { e.preventDefault(); setPos(e.touches[0].clientX); }
+  }, { passive: false });
+  window.addEventListener('touchend', () => { dragging = false; });
 
   let swept = false;
   const baObs = new IntersectionObserver(entries => {
