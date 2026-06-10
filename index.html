@@ -327,7 +327,6 @@ nav.scrolled {
   line-height: 0.92;
   margin-bottom: clamp(28px, 4vw, 52px);
   overflow: hidden;
-  word-break: break-word;
 }
 @media (max-width: 640px) {
   .hero-h1 { font-size: clamp(18px, 7.8vw, 36px); letter-spacing: -0.02em; }
@@ -728,14 +727,13 @@ nav.scrolled {
   content: ''; height: 1px; width: 32px; background: var(--lime);
 }
 .contact h2 {
-  font-size: clamp(36px, 8vw, 82px);
+  font-size: clamp(30px, 6vw, 66px);
   font-weight: 800; letter-spacing: -0.04em;
   line-height: 0.95; margin-bottom: 28px;
   font-style: italic;
-  word-break: break-word;
 }
 @media (max-width: 640px) {
-  .contact h2 { font-size: clamp(18px, 8.5vw, 40px); letter-spacing: -0.02em; }
+  .contact h2 { font-size: clamp(16px, 8vw, 36px); letter-spacing: -0.02em; }
 }
 .contact h2 .hollow {
   -webkit-text-stroke: 2px rgba(202,255,51,0.25);
@@ -2217,9 +2215,9 @@ const previewInner = document.getElementById('projectPreviewInner');
 
 function onProjectEnter(el) {
   setOrb(el.dataset.orb);
-  previewInner.style.background = `linear-gradient(135deg,${el.dataset.accent}33,${el.dataset.accent}11)`;
-  previewInner.style.fontSize = '56px';
-  previewInner.innerHTML = el.dataset.icon;
+  previewInner.style.background = `linear-gradient(135deg,${el.dataset.accent}44,${el.dataset.accent}11)`;
+  previewInner.style.fontSize = '0';
+  previewInner.innerHTML = '';
   preview.classList.add('show');
 }
 function onProjectLeave() { setOrb('rgba(202,255,51,0.15)'); preview.classList.remove('show'); }
