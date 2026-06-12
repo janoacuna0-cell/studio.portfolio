@@ -1504,9 +1504,169 @@ footer p {
   cursor: none; transition: color 0.2s;
 }
 .cs-close-btn:hover { color: var(--white); }
+
+/* ════════════════════════════════════════
+   CHATBOT
+════════════════════════════════════════ */
+.chatbot-btn {
+  position: fixed; bottom: 28px; right: 28px;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--lime); border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; z-index: 9990;
+  box-shadow: 0 8px 32px rgba(202,255,51,0.35);
+  transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s;
+}
+.chatbot-btn:hover { transform: scale(1.08); box-shadow: 0 12px 40px rgba(202,255,51,0.5); }
+.chatbot-btn .icon-chat,
+.chatbot-btn .icon-close { position: absolute; transition: opacity 0.25s, transform 0.3s; }
+.chatbot-btn .icon-close { opacity: 0; transform: rotate(-90deg); }
+.chatbot-btn.open .icon-chat { opacity: 0; transform: rotate(90deg); }
+.chatbot-btn.open .icon-close { opacity: 1; transform: rotate(0deg); }
+
+.chatbot-window {
+  position: fixed; bottom: 96px; right: 28px;
+  width: 340px; max-height: 540px;
+  background: #0a0a10;
+  border: 1px solid rgba(202,255,51,0.14);
+  border-radius: 20px;
+  display: flex; flex-direction: column;
+  z-index: 9989;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.75), 0 0 0 1px rgba(202,255,51,0.04);
+  opacity: 0; transform: translateY(16px) scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease-out-expo), transform 0.35s var(--ease-out-expo);
+  overflow: hidden;
+}
+.chatbot-window.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+@media (max-width: 480px) {
+  .chatbot-btn { bottom: 18px; right: 16px; width: 50px; height: 50px; }
+  .chatbot-window { right: 8px; left: 8px; width: auto; bottom: 82px; max-height: 72vh; }
+}
+.chatbot-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+.chatbot-header-info { display: flex; align-items: center; gap: 11px; }
+.chatbot-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--lime); display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 800; font-size: 13px;
+  color: #07070B; flex-shrink: 0;
+}
+.chatbot-hname {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 13px; letter-spacing: -0.02em; color: var(--white);
+}
+.chatbot-status {
+  font-family: var(--font-mono); font-size: 8px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: #CAFF33; margin-top: 2px; display: flex; align-items: center; gap: 4px;
+}
+.chatbot-status::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: #CAFF33; display: inline-block;
+  animation: pulse 2s ease-in-out infinite;
+}
+.chatbot-close {
+  background: none; border: none; color: var(--muted);
+  cursor: pointer; font-size: 16px; line-height: 1;
+  transition: color 0.2s; padding: 4px; display: flex;
+}
+.chatbot-close:hover { color: var(--white); }
+.chatbot-messages {
+  flex: 1; overflow-y: auto; padding: 14px 14px 6px;
+  display: flex; flex-direction: column; gap: 7px;
+  scroll-behavior: smooth;
+  scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.08) transparent;
+}
+.chatbot-msg { max-width: 88%; animation: msgIn 0.3s var(--ease-out-expo) both; }
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(7px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.chatbot-msg.bot  { align-self: flex-start; }
+.chatbot-msg.user { align-self: flex-end; }
+.chatbot-msg-bubble {
+  padding: 9px 13px; border-radius: 16px;
+  font-size: 12.5px; line-height: 1.6; white-space: pre-line;
+}
+.chatbot-msg.bot .chatbot-msg-bubble {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+  color: var(--white); border-bottom-left-radius: 4px;
+}
+.chatbot-msg.user .chatbot-msg-bubble {
+  background: var(--lime); color: #07070B;
+  font-weight: 600; border-bottom-right-radius: 4px;
+}
+.chatbot-typing {
+  align-self: flex-start;
+  display: flex; align-items: center; gap: 4px;
+  padding: 10px 13px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px; border-bottom-left-radius: 4px;
+}
+.chatbot-typing span {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--muted);
+  animation: typingDot 1.1s ease-in-out infinite;
+}
+.chatbot-typing span:nth-child(2) { animation-delay: 0.18s; }
+.chatbot-typing span:nth-child(3) { animation-delay: 0.36s; }
+@keyframes typingDot {
+  0%,60%,100% { transform: translateY(0); opacity: 0.35; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+.chatbot-chips-wrap {
+  padding: 6px 12px 14px;
+  flex-shrink: 0; display: flex; flex-direction: column; gap: 5px;
+}
+.chatbot-chip {
+  display: block; width: 100%; text-align: left;
+  background: none; border: 1px solid rgba(202,255,51,0.18);
+  border-radius: 100px; padding: 7px 13px;
+  font-family: var(--font-mono); font-size: 9.5px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(202,255,51,0.75); cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.chatbot-chip:hover { background: rgba(202,255,51,0.07); border-color: var(--lime); color: var(--lime); }
+.chatbot-chip.wa { background: rgba(37,211,102,0.07); border-color: rgba(37,211,102,0.3); color: #4ae88a; }
+.chatbot-chip.wa:hover { background: rgba(37,211,102,0.14); border-color: #25D366; color: #25D366; }
 </style>
 </head>
 <body>
+
+
+<!-- CHATBOT -->
+<button class="chatbot-btn" id="chatbotBtn" aria-label="Chat con Studio">
+  <svg class="icon-chat" width="22" height="22" viewBox="0 0 24 24" fill="none">
+    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#07070B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <svg class="icon-close" width="18" height="18" viewBox="0 0 18 18" fill="none">
+    <path d="M2 2l14 14M16 2L2 16" stroke="#07070B" stroke-width="2.2" stroke-linecap="round"/>
+  </svg>
+</button>
+<div class="chatbot-window" id="chatbotWindow" role="dialog" aria-label="Chat con Studio">
+  <div class="chatbot-header">
+    <div class="chatbot-header-info">
+      <div class="chatbot-avatar">S.</div>
+      <div>
+        <div class="chatbot-hname">STUDIO.</div>
+        <div class="chatbot-status">En línea</div>
+      </div>
+    </div>
+    <button class="chatbot-close" id="chatbotClose" aria-label="Cerrar">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="chatbot-messages" id="chatbotMessages"></div>
+  <div class="chatbot-chips-wrap" id="chatbotChips"></div>
+</div>
 
 <!-- NOISE -->
 <div class="noise" aria-hidden="true"></div>
@@ -2577,6 +2737,194 @@ function initComet() {
     });
   }, { threshold: 0.3 });
   baObs.observe(container);
+})();
+
+
+/* ── CHATBOT ── */
+(function initChatbot() {
+  const btn    = document.getElementById('chatbotBtn');
+  const win    = document.getElementById('chatbotWindow');
+  const msgs   = document.getElementById('chatbotMessages');
+  const chips  = document.getElementById('chatbotChips');
+  const closeB = document.getElementById('chatbotClose');
+
+  let isOpen = false, started = false;
+  const WA = 'https://wa.me/5492804198909?text=' + encodeURIComponent('Hola! Vengo de la pagina de Studio. ');
+
+  const FLOW = {
+    start: {
+      msg: 'Hola! Soy el asistente de STUDIO.\nEn que puedo ayudarte?',
+      chips: [
+        { label: 'Que servicios ofrecen?', next: 'services' },
+        { label: 'Cuanto cuesta?', next: 'price' },
+        { label: 'Cuanto tiempo tarda?', next: 'time' },
+        { label: 'Como empiezo?', next: 'howstart' },
+        { label: 'Trabajan con clientes de otro pais?', next: 'remote' },
+        { label: 'Hablar con alguien', next: 'wa', wa: true }
+      ]
+    },
+    services: {
+      msg: 'Hacemos de todo! Cada proyecto es unico.\nQue tipo de web tenes en mente?',
+      chips: [
+        { label: 'Web de negocio / servicios', next: 'svc_biz' },
+        { label: 'Tienda online / e-commerce', next: 'svc_ecom' },
+        { label: 'Web con chatbot integrado', next: 'svc_bot' },
+        { label: 'Web interactiva / itinerario', next: 'svc_inter' },
+        { label: 'Web educativa / cursos', next: 'svc_edu' },
+        { label: 'Portfolio / catalogo', next: 'svc_port' },
+        { label: 'Volver', next: 'start' }
+      ]
+    },
+    svc_biz: {
+      msg: 'Webs profesionales para negocios y servicios: diseno personalizado, seccion de servicios, formulario de contacto o derivacion directa a WhatsApp, optimizacion para Google y carga ultra rapida.',
+      chips: [
+        { label: 'Cuanto cuesta?', next: 'price' },
+        { label: 'Cuanto tarda?', next: 'time' },
+        { label: 'Quiero empezar', next: 'wa', wa: true },
+        { label: 'Ver otros servicios', next: 'services' }
+      ]
+    },
+    svc_ecom: {
+      msg: 'Tiendas online completas: catalogo de productos, carrito de compras, pagos con MercadoPago o tarjeta, gestion de stock y boton de consulta por WhatsApp. Tu negocio vendiendo las 24hs.',
+      chips: [
+        { label: 'Cuanto cuesta?', next: 'price' },
+        { label: 'Cuanto tarda?', next: 'time' },
+        { label: 'Quiero empezar', next: 'wa', wa: true },
+        { label: 'Ver otros servicios', next: 'services' }
+      ]
+    },
+    svc_bot: {
+      msg: 'Integramos chatbots en tu web: responden preguntas frecuentes automaticamente, recolectan datos de clientes, derivan a WhatsApp cuando es necesario y trabajan 24/7 sin que tengas que estar presente.',
+      chips: [
+        { label: 'Cuanto cuesta?', next: 'price' },
+        { label: 'Me interesa', next: 'wa', wa: true },
+        { label: 'Ver otros servicios', next: 'services' }
+      ]
+    },
+    svc_inter: {
+      msg: 'Webs interactivas con animaciones, mapas, galerias inmersivas e itinerarios visuales. Ideales para turismo, eventos o cualquier experiencia que quieras contar de forma memorable.',
+      chips: [
+        { label: 'Cuanto cuesta?', next: 'price' },
+        { label: 'Me interesa', next: 'wa', wa: true },
+        { label: 'Ver otros servicios', next: 'services' }
+      ]
+    },
+    svc_edu: {
+      msg: 'Plataformas educativas: cursos online, videos integrados, evaluaciones, certificados y acceso por suscripcion. Transforma tu conocimiento en un producto digital.',
+      chips: [
+        { label: 'Cuanto cuesta?', next: 'price' },
+        { label: 'Me interesa', next: 'wa', wa: true },
+        { label: 'Ver otros servicios', next: 'services' }
+      ]
+    },
+    svc_port: {
+      msg: 'Portfolios y catalogos digitales con tu identidad visual: para fotografos, arquitectos, disenadores, consultores y cualquier profesional que quiera mostrar su trabajo con clase.',
+      chips: [
+        { label: 'Cuanto cuesta?', next: 'price' },
+        { label: 'Me interesa', next: 'wa', wa: true },
+        { label: 'Ver otros servicios', next: 'services' }
+      ]
+    },
+    price: {
+      msg: 'Los precios varian segun el proyecto: complejidad, funcionalidades, integraciones.\nNo hay tarifas fijas porque cada web es distinta.\n\nContanos tu idea y te armamos un presupuesto a medida, sin compromiso.',
+      chips: [
+        { label: 'Pedir presupuesto por WhatsApp', next: 'wa', wa: true },
+        { label: 'Cuanto tiempo tarda?', next: 'time' },
+        { label: 'Volver al inicio', next: 'start' }
+      ]
+    },
+    time: {
+      msg: 'Depende del proyecto:\n\nWeb simple — menos de 4 dias\nWeb mediana — 1 a 2 semanas\nProyectos complejos — segun alcance\n\nSiempre definimos tiempos claros antes de arrancar.',
+      chips: [
+        { label: 'Como empiezo?', next: 'howstart' },
+        { label: 'Hablar con alguien', next: 'wa', wa: true },
+        { label: 'Volver al inicio', next: 'start' }
+      ]
+    },
+    howstart: {
+      msg: 'Muy simple:\n\n1. Nos contas tu idea por WhatsApp\n2. Te hacemos preguntas para entender el proyecto\n3. Te enviamos un presupuesto detallado\n4. Si acordamos, arrancamos!\n\nSin vueltas, sin burocracia.',
+      chips: [
+        { label: 'Escribir ahora por WhatsApp', next: 'wa', wa: true },
+        { label: 'Ver servicios', next: 'services' },
+        { label: 'Volver al inicio', next: 'start' }
+      ]
+    },
+    remote: {
+      msg: 'Si! Trabajamos 100% de forma remota con clientes de toda Argentina y el exterior. Nos coordinamos por WhatsApp, Zoom o Meet, y entregamos el proyecto donde estes.',
+      chips: [
+        { label: 'Contactar ahora', next: 'wa', wa: true },
+        { label: 'Ver servicios', next: 'services' },
+        { label: 'Volver al inicio', next: 'start' }
+      ]
+    }
+  };
+
+  function scrollBottom() {
+    setTimeout(() => { msgs.scrollTop = msgs.scrollHeight; }, 40);
+  }
+
+  function addMsg(text, type) {
+    const d = document.createElement('div');
+    d.className = 'chatbot-msg ' + type;
+    const b = document.createElement('div');
+    b.className = 'chatbot-msg-bubble';
+    b.textContent = text;
+    d.appendChild(b);
+    msgs.appendChild(d);
+    scrollBottom();
+  }
+
+  function showTyping() {
+    const t = document.createElement('div');
+    t.className = 'chatbot-typing'; t.id = 'cbTyping';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    msgs.appendChild(t); scrollBottom(); return t;
+  }
+
+  function setChips(list) {
+    chips.innerHTML = '';
+    list.forEach(c => {
+      const b = document.createElement('button');
+      b.className = 'chatbot-chip' + (c.wa ? ' wa' : '');
+      b.textContent = c.label;
+      b.onclick = () => pick(c);
+      chips.appendChild(b);
+    });
+  }
+
+  function showNode(key, delay) {
+    const node = FLOW[key] || FLOW.start;
+    const t = showTyping();
+    setTimeout(() => {
+      t.remove();
+      addMsg(node.msg, 'bot');
+      setChips(node.chips);
+    }, delay || 650);
+  }
+
+  function pick(chip) {
+    addMsg(chip.label, 'user');
+    setChips([]);
+    if (chip.wa) {
+      window.open(WA, '_blank', 'noopener');
+      setTimeout(() => {
+        addMsg('Te redirigimos a WhatsApp. Hasta pronto!', 'bot');
+        setChips([{ label: 'Volver al inicio', next: 'start' }]);
+      }, 500);
+      return;
+    }
+    showNode(chip.next);
+  }
+
+  function toggle() {
+    isOpen = !isOpen;
+    btn.classList.toggle('open', isOpen);
+    win.classList.toggle('open', isOpen);
+    if (isOpen && !started) { started = true; setTimeout(() => showNode('start', 800), 300); }
+  }
+
+  btn.addEventListener('click', toggle);
+  closeB.addEventListener('click', () => { isOpen = false; btn.classList.remove('open'); win.classList.remove('open'); });
 })();
 
 /* ── INIT ── */
