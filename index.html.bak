@@ -329,7 +329,7 @@ nav.scrolled {
   overflow: hidden;
 }
 @media (max-width: 640px) {
-  .hero-h1 { font-size: clamp(30px, 8.5vw, 46px); letter-spacing: -0.02em; }
+  .hero-h1 { font-size: clamp(14px, 6vw, 28px); letter-spacing: -0.02em; }
 }
 .hero-h1 .line {
   display: block; overflow: hidden;
@@ -1637,23 +1637,6 @@ footer p {
 .chatbot-chip:hover { background: rgba(202,255,51,0.07); border-color: var(--lime); color: var(--lime); }
 .chatbot-chip.wa { background: rgba(37,211,102,0.07); border-color: rgba(37,211,102,0.3); color: #4ae88a; }
 .chatbot-chip.wa:hover { background: rgba(37,211,102,0.14); border-color: #25D366; color: #25D366; }
-
-/* ════════════════════════════════════════
-   SOLUTIONS
-════════════════════════════════════════ */
-.solutions { padding: clamp(80px,12vw,140px) clamp(20px,5vw,56px); max-width: 1400px; margin: 0 auto; }
-.solutions-head { margin-bottom: clamp(40px,6vw,72px); }
-.solutions-head h2 { font-size: clamp(30px,5vw,60px); font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
-.solutions-desc { color: var(--muted); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; margin-top: 16px; }
-.solutions-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(12px,1.5vw,20px); }
-.solution-card { border: 1px solid var(--border); border-radius: 16px; padding: clamp(22px,2.5vw,30px); background: var(--bg2); transition: border-color .3s, transform .3s, box-shadow .3s; }
-.solution-card:hover { border-color: var(--lime-dim); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
-.solution-icon { font-size: 26px; margin-bottom: 16px; line-height: 1; }
-.solution-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(16px,1.6vw,19px); margin-bottom: 10px; letter-spacing: -0.01em; }
-.solution-desc { color: var(--muted); font-size: clamp(13px,1.3vw,14.5px); line-height: 1.6; }
-@media (max-width: 900px) { .solutions-grid { grid-template-columns: repeat(2,1fr); } }
-@media (max-width: 560px) { .solutions-grid { grid-template-columns: 1fr; } }
-
 </style>
 </head>
 <body>
@@ -1716,7 +1699,6 @@ footer p {
     <a href="#work" id="nav-work">Proyectos</a>
     <a href="#services" id="nav-services">Servicios</a>
     <a href="#about" id="nav-about">Nosotros</a>
-    <a href="asistente-whatsapp.html" id="nav-demo" style="color:var(--lime)">Asistente IA ↗</a>
   </div>
   <div class="nav-right">
     <button class="lang-toggle" id="langBtn" onclick="toggleLang()" aria-label="Cambiar idioma">EN</button>
@@ -1734,7 +1716,6 @@ footer p {
     <li class="mobile-nav-item"><a href="#process" onclick="closeMobile()" id="m-process">Proceso</a></li>
     <li class="mobile-nav-item"><a href="#services" onclick="closeMobile()" id="m-services">Servicios</a></li>
     <li class="mobile-nav-item"><a href="#about" onclick="closeMobile()" id="m-about">Nosotros</a></li>
-    <li class="mobile-nav-item"><a href="asistente-whatsapp.html" id="m-demo">Asistente IA ↗</a></li>
   </ul>
   <div class="mobile-footer">
     <a href="https://wa.me/5492804198909?text=Hola!%20Venimos%20de%20la%20página%20de%20Studio." target="_blank" rel="noopener" class="mobile-cta" data-wa id="mCta">Hablemos</a>
@@ -1850,20 +1831,6 @@ footer p {
 
 <div class="divider"></div>
 
-<!-- SOLUTIONS -->
-<section id="solutions" class="solutions" aria-label="Qué resolvemos">
-  <div class="solutions-head">
-    <div>
-      <p id="sol-sub" style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--lime);margin-bottom:12px;">// Qué resolvemos</p>
-      <h2 data-reveal id="sol-title">Menos trabajo manual.<br>Más clientes.</h2>
-      <p data-reveal="delay-1" id="sol-desc" class="solutions-desc">Estos son los problemas que resolvemos en días, no en meses:</p>
-    </div>
-  </div>
-  <div class="solutions-grid" id="solutionsGrid"></div>
-</section>
-
-<div class="divider"></div>
-
 <!-- TECH STACK -->
 <section id="techstack" class="techstack" aria-label="Stack tecnológico">
   <div class="techstack-head">
@@ -1889,21 +1856,21 @@ footer p {
   <div class="about-stats" data-reveal="delay-1">
     <div class="stat-row">
       <div class="stat-num-wrap">
-        <span class="stat-num" data-count="6">6</span>
+        <span class="stat-num" data-count="100">0</span><span class="stat-suffix">%</span>
       </div>
-      <div class="stat-label" id="st1">Proyectos reales en vivo</div>
+      <div class="stat-label" id="st1">Enfoque en cada proyecto</div>
     </div>
     <div class="stat-row">
       <div class="stat-num-wrap">
-        <span class="stat-num">24/7</span>
+        <span class="stat-num" data-count="∞">∞</span>
       </div>
-      <div class="stat-label" id="st2">Tus clientes, siempre atendidos</div>
+      <div class="stat-label" id="st2">Atención al detalle</div>
     </div>
     <div class="stat-row">
       <div class="stat-num-wrap">
-        <span class="stat-num" data-count="100">100</span><span class="stat-suffix">%</span>
+        <span class="stat-num" data-count="3">0</span>
       </div>
-      <div class="stat-label" id="st3">A medida, con IA</div>
+      <div class="stat-label" id="st3">Proyectos activos</div>
     </div>
   </div>
 </section>
@@ -2071,21 +2038,6 @@ footer p {
 /* ── DATA ── */
 const PROJECTS = [
   {
-    id: 'wa-ia',
-    name: 'Asistente de WhatsApp IA',
-    tags: ['IA', 'WhatsApp', 'Automatización'],
-    icon: '💬',
-    accent: '#25D366',
-    orbColor: 'rgba(37,211,102,0.22)',
-    link: 'asistente-whatsapp.html',
-    live: true,
-    cs: {
-      context: { label: 'Contexto', title: 'Producto propio de STUDIO', text: 'Asistente con IA que responde, agenda y hace seguimiento por WhatsApp 24/7 para clínicas, inmobiliarias, restaurantes y más.' },
-      challenge: { label: 'Desafío', title: 'Mostrar el valor en segundos', text: 'Que el dueño vea, en su propio rubro, cómo la IA atiende a sus clientes al instante sin perder ninguna consulta.' },
-      solution: { label: 'Solución', title: 'Demo interactiva multi-rubro', text: 'Landing con teléfono en vivo: elegís tu rubro y ves la conversación real del asistente. Se integra al WhatsApp del negocio vía la API oficial.' }
-    }
-  },
-  {
     id: 'vex',
     name: 'VEX Real Estate',
     tags: ['Real Estate', 'AI Platform', 'Next.js'],
@@ -2182,31 +2134,31 @@ let lang = 'es';
 const T = {
   es: {
     navCta: 'Hablemos', langBtn: 'EN',
-    heroLabel: 'Webs y automatización con IA',
-    h1: ['MÁS CLIENTES.', 'MENOS TAREAS.', 'CON IA.'],
-    heroDesc: 'Webs, chatbots y automatizaciones que responden, agendan y siguen a tus clientes por vos. Menos trabajo manual, más ventas cerradas.',
+    heroLabel: 'Estudio de Desarrollo Web',
+    h1: ['CREAMOS', 'EXPERIENCIAS', 'DIGITALES.'],
+    heroDesc: 'Transformamos ideas en productos digitales de clase mundial. Código limpio, diseño de autor, resultados reales.',
     heroBtn: 'Ver proyectos', heroGhost: 'Hablemos',
     scrollLabel: 'scroll',
     pSub: '// Trabajo seleccionado', pTitle: 'Proyectos', pCount: (n) => `0${n} proyectos`,
     liveLabel: 'En vivo', comingLabel: 'Muy pronto', visitBtn: 'Ver sitio',
-    s1n: 'Webs que convierten', s1d: 'Sitios rápidos que transforman visitas en clientes, no solo en visitas bonitas.',
-    s2n: 'Diseño UI/UX', s2d: 'Interfaces claras que guían al usuario directo a comprarte o escribirte.',
-    s3n: 'E-Commerce', s3d: 'Tiendas que venden solas: checkout sin fricción y recuperación de carritos abandonados.',
-    s4n: 'Automatización', s4d: 'Conectamos tus herramientas y eliminamos tareas repetitivas. Tu operación en piloto automático.',
-    s5n: 'Recepcionista IA 24/7', s5d: 'Asistente con IA en tu web y WhatsApp: responde, agenda y hace seguimiento solo. Como un empleado que no duerme.',
+    s1n: 'Desarrollo Web', s1d: 'Sitios y apps con código limpio, velocidad real y arquitectura escalable.',
+    s2n: 'Diseño UI/UX', s2d: 'Interfaces que enamoran al usuario y convierten visitas en resultados.',
+    s3n: 'E-Commerce', s3d: 'Tiendas digitales optimizadas para vender más, con menos fricción.',
+    s4n: 'Estrategia Digital', s4d: 'Pensamos con vos el producto desde cero hasta el lanzamiento.',
+    s5n: 'Chatbots & IA', s5d: 'Asistentes inteligentes para tu web y WhatsApp. Atención 24/7, respuestas automáticas y flujos que venden.',
     aLabel: 'Nosotros', aTitle: 'Dos mentes.<br>Una misión.',
-    aDesc: 'Combinamos ingeniería y estrategia de negocio para construir sistemas que no solo lucen bien: te consiguen más clientes y te ahorran horas de trabajo manual.',
-    st1: 'Proyectos reales en vivo', st2: 'Tus clientes, siempre atendidos', st3: 'A medida, con IA',
+    aDesc: 'Fusionamos la lógica de la Ingeniería con la estrategia de la Economía para crear productos digitales que no solo lucen bien — funcionan, escalan y convierten.',
+    st1: 'Enfoque en cada proyecto', st2: 'Atención al detalle', st3: 'Proyectos activos',
     statActive: '3',
     cTag: 'Contacto', cTitle: '¿CONECTAMOS?',
-    cDesc: 'Contanos qué tarea te está haciendo perder tiempo o clientes. Te mostramos cómo automatizarla, sin compromiso.',
+    cDesc: 'Si buscás calidad y atención al detalle, estás en el lugar correcto.',
     cBtn: 'WhatsApp Directo', waMsg: 'Hola! Venimos de la página de Studio.',
     fCopy: '© STUDIO. — DIGITAL ATELIER',
     fl1: 'Proyectos', fl2: 'Nosotros', fl3: 'WhatsApp',
     mn1: 'Proyectos', mn2: 'Servicios', mn3: 'Nosotros',
     heroBadge: 'Diseño · Código · Estrategia',
     marquee: ['Desarrollo Web','Diseño UI/UX','E-Commerce','Branding Digital','React & Next.js','Estrategia Digital','Chatbots & IA','WhatsApp Bots','Apps Web','Identidad Visual'],
-    twWords: ['CON IA.','SIN ESFUERZO.','EN AUTOMÁTICO.','MIENTRAS DORMÍS.'],
+    twWords: ['DIGITALES.','ÚNICAS.','DE AUTOR.','QUE IMPACTAN.'],
     procSub: '// Proceso', procTitle: 'Cómo trabajamos.',
     processSteps: [
       { num: '01', title: 'Briefing', desc: 'Escuchamos tu visión y definimos objetivos, alcance y KPIs del proyecto.' },
@@ -2216,44 +2168,35 @@ const T = {
       { num: '05', title: 'Lanzamiento', desc: 'Deploy, dominio, SEO básico y transferencia completa del proyecto.' }
     ],
     techSub: '// Tecnologías', techTitle: 'Nuestro stack.',
-    solSub: '// Qué resolvemos', solTitle: 'Menos trabajo manual.<br>Más clientes.', solDesc: 'Estos son los problemas que resolvemos en días, no en meses:',
-    solutions: [
-      { icon:'🤖', title:'Recepcionista IA 24/7', desc:'Responde y agenda solo en WhatsApp e Instagram, también de madrugada. Ningún cliente sin respuesta.' },
-      { icon:'🎯', title:'Cazador de leads', desc:'Captura cada consulta, la registra y le hace seguimiento hasta cerrar. Ahí está la mayoría de las ventas perdidas.' },
-      { icon:'📅', title:'Menos ausencias', desc:'Recordatorios automáticos de turnos y reservas. Menos huecos en la agenda, más facturación.' },
-      { icon:'⭐', title:'Reseñas en automático', desc:'Pide reseñas de Google solo y sube tu reputación sin que muevas un dedo.' },
-      { icon:'🔁', title:'Reactivación de clientes', desc:'Campañas automáticas para que vuelvan los que no te compran hace tiempo.' },
-      { icon:'📊', title:'Tu Excel, hecho sistema', desc:'Reservas, stock y gestión en un sistema a medida. Sin caos ni errores de carga manual.' }
-    ],
     cursorLabels: { work: 'VER →', contact: 'HOLA ✦', services: 'SERVICIOS', process: 'PROCESO', about: 'NOSOTROS', techstack: 'STACK' }
   },
   en: {
     navCta: 'Contact', langBtn: 'ES',
-    heroLabel: 'Web & AI automation',
-    h1: ['MORE CLIENTS.', 'LESS BUSYWORK.', 'WITH AI.'],
-    heroDesc: 'Websites, chatbots and automations that reply, book and follow up your clients for you. Less manual work, more closed sales.',
+    heroLabel: 'Web Development Studio',
+    h1: ['WE BUILD', 'DIGITAL', 'EXPERIENCES.'],
+    heroDesc: 'Turning ideas into world-class digital products. Clean code, authorial design, real results.',
     heroBtn: 'See projects', heroGhost: "Let's talk",
     scrollLabel: 'scroll',
     pSub: '// Selected work', pTitle: 'Projects', pCount: (n) => `0${n} projects`,
     liveLabel: 'Live', comingLabel: 'Coming soon', visitBtn: 'Visit',
-    s1n: 'Sites that convert', s1d: 'Fast sites that turn visits into clients, not just pretty pageviews.',
-    s2n: 'UI/UX Design', s2d: 'Clear interfaces that guide users straight to buying or messaging you.',
-    s3n: 'E-Commerce', s3d: 'Shops that sell on their own: frictionless checkout and abandoned-cart recovery.',
-    s4n: 'Automation', s4d: 'We connect your tools and kill repetitive tasks. Your operation on autopilot.',
-    s5n: '24/7 AI Receptionist', s5d: 'AI assistant on your site and WhatsApp: replies, books and follows up on its own. Like an employee that never sleeps.',
+    s1n: 'Web Development', s1d: 'Sites and apps built with clean code, real speed and scalable architecture.',
+    s2n: 'UI/UX Design', s2d: 'Interfaces users love that turn visits into results.',
+    s3n: 'E-Commerce', s3d: 'Digital shops optimized to sell more with less friction.',
+    s4n: 'Digital Strategy', s4d: 'We think through the product with you from scratch to launch.',
+    s5n: 'Chatbots & AI', s5d: 'Smart assistants for your website and WhatsApp. 24/7 support, automated replies and flows that sell.',
     aLabel: 'About', aTitle: 'Two minds.<br>One mission.',
-    aDesc: 'We combine engineering and business strategy to build systems that do more than look good: they win you clients and save you hours of manual work.',
-    st1: 'Real projects live', st2: 'Your clients, always answered', st3: 'Custom-built, with AI',
+    aDesc: 'Merging Engineering logic with Economic strategy to build digital products that don\'t just look good — they work, scale and convert.',
+    st1: 'Focus on every project', st2: 'Attention to detail', st3: 'Active projects',
     statActive: '3',
     cTag: 'Contact', cTitle: "LET'S TALK?",
-    cDesc: 'Tell us which task is costing you time or clients. We will show you how to automate it — no strings attached.',
+    cDesc: "If you're looking for quality and attention to detail, you're in the right place.",
     cBtn: 'Direct WhatsApp', waMsg: 'Hi! Reaching out from the Studio website.',
     fCopy: '© STUDIO. — DIGITAL ATELIER',
     fl1: 'Projects', fl2: 'About', fl3: 'WhatsApp',
     mn1: 'Projects', mn2: 'Services', mn3: 'About',
     heroBadge: 'Design · Code · Strategy',
     marquee: ['Web Development','UI/UX Design','E-Commerce','Digital Branding','React & Next.js','Digital Strategy','Chatbots & AI','WhatsApp Bots','Web Apps','Visual Identity'],
-    twWords: ['WITH AI.','EFFORTLESSLY.','ON AUTOPILOT.','WHILE YOU SLEEP.'],
+    twWords: ['DIGITAL.','UNIQUE.','MEMORABLE.','THAT WORK.'],
     procSub: '// Process', procTitle: 'How we work.',
     processSteps: [
       { num: '01', title: 'Briefing', desc: 'We listen to your vision and define objectives, scope and KPIs.' },
@@ -2263,15 +2206,6 @@ const T = {
       { num: '05', title: 'Launch', desc: 'Deploy, domain, basic SEO and full project handoff.' }
     ],
     techSub: '// Technologies', techTitle: 'Our stack.',
-    solSub: '// What we solve', solTitle: 'Less manual work.<br>More clients.', solDesc: 'These are the problems we solve in days, not months:',
-    solutions: [
-      { icon:'🤖', title:'24/7 AI Receptionist', desc:'Replies and books on its own on WhatsApp and Instagram, even at 3am. No client left unanswered.' },
-      { icon:'🎯', title:'Lead hunter', desc:'Captures every inquiry, logs it and follows up until it closes. That is where most lost sales hide.' },
-      { icon:'📅', title:'Fewer no-shows', desc:'Automatic appointment and booking reminders. Fewer gaps in the calendar, more revenue.' },
-      { icon:'⭐', title:'Reviews on autopilot', desc:'Asks for Google reviews on its own and grows your reputation hands-free.' },
-      { icon:'🔁', title:'Client reactivation', desc:'Automated campaigns to bring back customers who have not bought in a while.' },
-      { icon:'📊', title:'Your spreadsheet, now a system', desc:'Bookings, stock and management in a custom system. No chaos, no manual data errors.' }
-    ],
     cursorLabels: { work: 'SEE →', contact: 'HI ✦', services: 'SERVICES', process: 'PROCESS', about: 'ABOUT', techstack: 'STACK' }
   }
 };
@@ -2327,13 +2261,6 @@ function buildTech() {
     </div>
   `).join('');
   initTechObs();
-}
-
-function buildSolutions(){
-  var g = document.getElementById('solutionsGrid'); if(!g) return;
-  g.innerHTML = t('solutions').map(function(s){
-    return '<div class="solution-card"><div class="solution-icon">'+s.icon+'</div><div class="solution-title">'+s.title+'</div><div class="solution-desc">'+s.desc+'</div></div>';
-  }).join('');
 }
 
 /* ── MARQUEE ── */
@@ -2547,10 +2474,6 @@ function applyLang() {
   document.getElementById('s3-name').textContent = tm.s3n; document.getElementById('s3-desc').textContent = tm.s3d;
   document.getElementById('s4-name').textContent = tm.s4n; document.getElementById('s4-desc').textContent = tm.s4d;
   document.getElementById('s5-name').textContent = tm.s5n; document.getElementById('s5-desc').textContent = tm.s5d;
-  document.getElementById('sol-sub').textContent = tm.solSub;
-  document.getElementById('sol-title').innerHTML = tm.solTitle;
-  document.getElementById('sol-desc').textContent = tm.solDesc;
-  buildSolutions();
   document.getElementById('a-label').textContent = tm.aLabel;
   document.getElementById('a-title').innerHTML = tm.aTitle;
   document.getElementById('a-desc').textContent = tm.aDesc;
